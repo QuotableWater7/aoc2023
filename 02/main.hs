@@ -59,6 +59,14 @@ sumValidGameIndices validityTuple games = sum indices
   where
     validGames = filter (isValidGame validityTuple) games
     indices = map getIndex validGames
+
+getPowerOfCubes :: Game -> Int
+getPowerOfCubes game = maxRed * maxGreen * maxBlue
+  where
+    turns = getTurns game
+    maxRed = maximum (map getRed turns)
+    maxGreen = maximum (map getGreen turns)
+    maxBlue = maximum (map getBlue turns)
     
 main = do
   handle <- openFile "02/input.txt" ReadMode
@@ -69,5 +77,9 @@ main = do
   let games = map parseGame rawGames
   print "Part 1"
   print $ sumValidGameIndices (12, 13, 14) games
+
+  -- part 2
+  print "Part 2"
+  print $ sum (map getPowerOfCubes games)
 
   hClose handle
